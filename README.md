@@ -1,9 +1,6 @@
 # Árboles AVL
 
 Este repositorio contiene una implementación de Árboles AVL en Java, con explicaciones conceptuales, diagramas ilustrativos y código funcional.
-
-![Árbol AVL](https://github.com/FernandoHuilca/Arboles_AVL/assets/your-asset-id/image.png)
-
 ## Tabla de Contenidos
 
 - [Introducción](#introducción)
@@ -40,8 +37,8 @@ A continuación se muestran algunos diagramas que ilustran la estructura y las o
 
 <table>
   <tr>
-    <td><img src="https://github.com/FernandoHuilca/Arboles_AVL/assets/your-asset-id/diagram1.png" alt="Diagrama 1"></td>
-    <td><img src="https://github.com/FernandoHuilca/Arboles_AVL/assets/your-asset-id/diagram2.png" alt="Diagrama 2"></td>
+    <td><img src="https://github.com/FernandoHuilca/Arboles-AVL/assets/134117009/753e86b8-aa47-4d59-b723-c27f443b2ea6" alt="Diagrama 1"></td>
+    <td><img src="https://github.com/FernandoHuilca/Arboles-AVL/assets/134117009/e76a6585-706b-4e3c-b878-1e9e10d6acf3" alt="Diagrama 2"></td>
   </tr>
 </table>
 
