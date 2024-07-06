@@ -1,10 +1,28 @@
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 public class ArbolAVL {
     private Nodo raiz;
 
     // Método para crear el árbol AVL
+    /**
+     * AlgoritmocrearÁrbol
+        infoDeLaRaiz como Entero
+        infoNuevoNodo como Entero
+        opcion como Entero
+
+        infoDeLaRaiz = PedirDatos("Ingrese la raíz del árbol: ")
+        raiz = CrearNodo(infoDeLaRaiz)
+
+        opcion = Preguntar("¿Desea ingresar más nodos?")
+
+        Mientras opcion == SI
+            infoNuevoNodo = PedirDatos("Ingrese la info del nuevo nodo ")
+            Llamar a insertarNodo(infoNuevoNodo)
+            opcion = Preguntar("¿Desea ingresar más nodos?")
+        FinMientras
+    FinAlgoritmo
+     */
     public void crearÁrbol() {
         int infoDeLaRaiz = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese la raíz del árbol: "));
         raiz = new Nodo(infoDeLaRaiz);
@@ -21,6 +39,30 @@ public class ArbolAVL {
         raiz = insertar(raiz, info);
     }
 
+    /**
+     * 
+     * @param nodo
+     * @param info
+     * @return
+     * AlgoritmoInsertar(nodo, info) 
+        Si (nodo == NULO) Entonces
+        Retornar CrearNodo(info)
+        FinSi
+
+        Si (info < nodo.info) Entonces
+            nodo.nodoIzquierdo = Llamar a insertar(nodo.nodoIzquierdo, info)
+        Sino 
+            Si (info > nodo.info) Entonces
+                nodo.nodoDerecho = Llamar a insertar(nodo.nodoDerecho, info)
+            Sino
+            MostrarMensaje("Elemento ya existente: En un Árbol AVL, cada nodo debe tener un valor único.")
+        Retornar nodo
+    FinSi
+
+    nodo.altura = 1 + Máximo(altura(nodo.nodoIzquierdo), altura(nodo.nodoDerecho))
+    Retornar Llamar a balancear(nodo)
+FinAlgoritmo
+     */
     private Nodo insertar(Nodo nodo, int info) {
         if (nodo == null) {
             return new Nodo(info);
@@ -47,7 +89,43 @@ public class ArbolAVL {
     public void eliminarNodo(int info) {
         raiz = eliminar(raiz, info);
     }
+    /** 
+     * AlgoritmoEliminar(nodo, info) 
+        Si (nodo == NULO) Entonces
+        Retornar nodo
+        FinSi
 
+        Si (info < nodo.info) Entonces
+            nodo.nodoIzquierdo = Llamar a eliminar(nodo.nodoIzquierdo, info)
+        Sino 
+            Si (info > nodo.info) Entonces
+                nodo.nodoDerecho = Llamar a eliminar(nodo.nodoDerecho, info)
+            Sino
+                Si (nodo.nodoIzquierdo == NULO O nodo.nodoDerecho == NULO) Entonces
+                    Definir temp como Nodo
+                        Si (temp == nodo.nodoIzquierdo) Entonces
+                            temp = nodo.nodoDerecho
+                        Sino
+                    temp = nodo.nodoIzquierdo
+            FinSi
+            Si (temp == NULO) Entonces
+                nodo = NULO
+            Sino
+                nodo = temp
+            FinSi
+        Sino
+            temp = Llamar a getNodoConMenorValor(nodo.nodoDerecho)
+            nodo.info = temp.info
+            nodo.nodoDerecho = Llamar a eliminar(nodo.nodoDerecho, temp.info)
+        FinSi
+    FinSi
+    Si (nodo == NULO) Entonces
+        Retornar nodo
+    FinSi
+    nodo.altura = 1 + Máximo(altura(nodo.nodoIzquierdo), altura(nodo.nodoDerecho))
+    Retornar Llamar a balancear(nodo)
+FinAlgoritmo
+     */
     private Nodo eliminar(Nodo nodo, int info) {
         if (nodo == null) {
             return nodo;
@@ -85,7 +163,21 @@ public class ArbolAVL {
         nodo.setAltura(1 + Math.max(altura(nodo.getNodoIzquierdo()), altura(nodo.getNodoDerecho())));
         return balancear(nodo);
     }
+    /**
+     * 
+     * @param nodo
+     * @return
+     * AlgoritmoGetNodoConMenorValor(nodo) Como Nodo
+            Definir current como Nodo
+            current = nodo
 
+        Mientras current.nodoIzquierdo != NULO
+            current = current.nodoIzquierdo
+        FinMientras
+
+        Retornar current
+        FinAlgoritmo
+     */
     private Nodo getNodoConMenorValor(Nodo nodo) {
         Nodo current = nodo;
         while (current.getNodoIzquierdo() != null) {
@@ -95,6 +187,24 @@ public class ArbolAVL {
     }
 
     // Método para buscar un nodo dentro del árbol
+    /**
+     * 
+     * @param nodoInicial
+     * @param infoABuscar
+     * AlgoritmoBuscarNodoDentroDelÁrbol(nodoInicial, infoABuscar)
+        Si (nodoInicial == NULO) Entonces
+            MostrarMensaje("El elemento no se encuentra dentro del árbol")
+        Sino
+            Si (infoABuscar == nodoInicial.info) Entonces
+                MostrarMensaje("El elemento " + infoABuscar + " fue encontrado con éxito.")
+            Sino
+                Si (infoABuscar < nodoInicial.info) Entonces
+                    Llamar a buscarNodoDentroDelÁrbol(nodoInicial.nodoIzquierdo, infoABuscar)
+                Sino
+            Llamar a buscarNodoDentroDelÁrbol(nodoInicial.nodoDerecho, infoABuscar)
+        FinSi
+    FinAlgoritmo
+     */
     public void buscarNodoDentroDelÁrbol(Nodo nodoInicial, int infoABuscar) {
         if (nodoInicial == null) {
             JOptionPane.showMessageDialog(null, "El elemento no se encuentra dentro del árbol");
@@ -108,6 +218,34 @@ public class ArbolAVL {
     }
 
     // Método para balancear el árbol
+    /**
+     * 
+     * @param nodo
+     * @return
+     * AlgoritmoBalancear(nodo) 
+            Definir balance como Entero
+            balance = Llamar a getBalance(nodo)
+
+            Si (balance > 1 Y Llamar a getBalance(nodo.nodoIzquierdo) >= 0) Entonces
+                Retornar Llamar a rotacionDerecha(nodo)
+            FinSi
+
+            Si (balance > 1 Y Llamar a getBalance(nodo.nodoIzquierdo) < 0) Entonces
+                nodo.nodoIzquierdo = Llamar a rotacionIzquierda(nodo.nodoIzquierdo)
+                Retornar Llamar a rotacionDerecha(nodo)
+            FinSi
+
+            Si (balance < -1 Y Llamar a getBalance(nodo.nodoDerecho) <= 0) Entonces
+                Retornar Llamar a rotacionIzquierda(nodo)
+            FinSi
+
+            Si (balance < -1 Y Llamar a getBalance(nodo.nodoDerecho) > 0) Entonces
+                nodo.nodoDerecho = Llamar a rotacionDerecha(nodo.nodoDerecho)
+            Retornar Llamar a rotacionIzquierda(nodo)
+            FinSi
+        Retornar nodo
+    FinAlgoritmo
+     */
     private Nodo balancear(Nodo nodo) {
         int balance = getBalance(nodo);
 
@@ -133,6 +271,23 @@ public class ArbolAVL {
     }
 
     // Métodos de rotación
+    /**
+     * 
+     * @param y
+     * @return
+     * Función rotacionDerecha(y) 
+            Definir x como Nodo
+            Definir T2 como Nodo
+            x = y.nodoIzquierdo
+            T2 = x.nodoDerecho
+            x.nodoDerecho = y
+            y.nodoIzquierdo = T2
+            y.altura = 1 + Máximo(altura(y.nodoIzquierdo), altura(y.nodoDerecho))
+            x.altura = 1 + Máximo(altura(x.nodoIzquierdo), altura(x.nodoDerecho))
+            Retornar x
+        FinAlgoritmo
+
+     */
     private Nodo rotacionDerecha(Nodo y) {
         Nodo x = y.getNodoIzquierdo();
         Nodo T2 = x.getNodoDerecho();
@@ -146,6 +301,22 @@ public class ArbolAVL {
         return x;
     }
 
+    /**
+     * 
+     * @param x
+     * @return
+     * AlgoritmoEtacionIzquierda(x) 
+        Definir y como Nodo
+        Definir T2 como Nodo
+        y = x.nodoDerecho
+        T2 = y.nodoIzquierdo
+        y.nodoIzquierdo = x
+        x.nodoDerecho = T2
+        x.altura = 1 + Máximo(altura(x.nodoIzquierdo), altura(x.nodoDerecho))
+        y.altura = 1 + Máximo(altura(y.nodoIzquierdo), altura(y.nodoDerecho))
+        Retornar y
+    FinAlgoritmo
+     */
     private Nodo rotacionIzquierda(Nodo x) {
         Nodo y = x.getNodoDerecho();
         Nodo T2 = y.getNodoIzquierdo();
@@ -160,13 +331,34 @@ public class ArbolAVL {
     }
 
     // Métodos auxiliares
+    /**
+     * 
+     * @param nodo
+     * @return
+     * AlgoritmoAltura(nodo) Como Entero
+            Si (nodo == NULO) Entonces
+                Retornar 0
+            FinSi
+        Retornar nodo.altura
+    FinAlgoritmo
+     */
     private int altura(Nodo nodo) {
         if (nodo == null) {
             return 0;
         }
         return nodo.getAltura();
     }
-
+    /**
+     * 
+     * @param nodo
+     * @return
+     * AlgoritmoGetBalance(nodo) Como Entero
+        Si (nodo == NULO) Entonces
+            Retornar 0
+        FinSi
+            Retornar altura(nodo.nodoIzquierdo) - altura(nodo.nodoDerecho)
+        FinAlgoritmo
+     */
     private int getBalance(Nodo nodo) {
         if (nodo == null) {
             return 0;
@@ -178,6 +370,27 @@ public class ArbolAVL {
         return raiz;
     }
 
+
+/**
+ * AlgoritmoToString 
+    Definir arbol como Cadena
+    arbol = ""
+    Llamar a imprimirÁrbolAux(raiz, 0, arbol)
+    Retornar arbol
+FinAlgoritmo
+
+AlgoritmoimprimirÁrbolAux(nodo, nivel, arbol)
+    Si (nodo != NULO) Entonces
+        Llamar a imprimirÁrbolAux(nodo.nodoDerecho, nivel + 1, arbol)
+        Para i = 0 Hasta nivel - 1 Con Paso 1
+            arbol = arbol + "                 "
+        FinPara
+        arbol = arbol + nodo.info + "\n"
+        Llamar a imprimirÁrbolAux(nodo.nodoIzquierdo, nivel + 1, arbol)
+    FinSi
+FinAlgoritmo
+
+ */
     @Override
     public String toString() {
         StringBuilder arbol = new StringBuilder();
